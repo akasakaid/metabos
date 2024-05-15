@@ -2,6 +2,8 @@
 
 Auto defeat the bos
 
+<img src="images/metabos.png" width="500px" height="500px">
+
 # Peringatan !
 
 > Semua risiko ditanggung pengguna 
@@ -44,7 +46,8 @@ Auto defeat the bos
     
     2. Isi manual
 
-        Untuk mendapatkan data agar bisa mengisi file data.json silahkan ikuti video berikut [https://youtu.be/aSexnEGYN0o](https://youtu.be/aSexnEGYN0o). *Videonya menggunakan bahasa indonesia. semoga kalian paham.*
+        Untuk mendapatkan data agar bisa mengisi file data.json silahkan ikuti video berikut [https://youtu.be/aSexnEGYN0o](https://youtu.be/aSexnEGYN0o). 
+        *Videonya menggunakan bahasa indonesia. semoga kalian paham.*
 
 # Support
 
