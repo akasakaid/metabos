@@ -4,6 +4,8 @@ Auto defeat the bos
 
 <img src="images/metabos.png" width="500px" height="500px">
 
+## README versi Inggris bisa dilihat [DISINI](README.md)
+
 # Peringatan !
 
 > Semua risiko ditanggung pengguna 

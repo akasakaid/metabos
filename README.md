@@ -4,6 +4,8 @@ Auto defeat the BOS
 
 <img src="images/metabos.png" width="500px" height="500px">
 
+## README with Indonesian version [HERE](README_ID.md)
+
 # Warning!
 
 > All risks are at the user's own risk 
