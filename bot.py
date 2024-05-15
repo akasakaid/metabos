@@ -95,7 +95,7 @@ class MetaBossBot:
         )[0]
 
         dict_data = {}
-        for i in urllib.parse.unquote(tg_data).split("&"):
+        for i in unquote(tg_data).split("&"):
             key, value = i.split("=")
             dict_data[key] = value
 
@@ -125,6 +125,11 @@ class MetaBossBot:
             phone = input(f"{biru}input telegram phone number : ")
             self.login(phone)
 
+        data = json.loads(open("data.json", "r").read())
+        if len(data["id"]) <= 0 or len(data["username"]) <= 0 or len(data["hash"]) <= 0:
+            phone = input(f"{biru}input telegram phone number : ")
+            self.login(phone)
+            
         data = json.loads(open("data.json", "r").read())
         while True:
             try:
