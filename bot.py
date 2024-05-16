@@ -126,7 +126,7 @@ class MetaBossBot:
             self.login(phone)
 
         data = json.loads(open("data.json", "r").read())
-        if len(data["id"]) <= 0 or len(data["username"]) <= 0 or len(data["hash"]) <= 0:
+        if len(str(data["id"])) <= 0 or len(data["username"]) <= 0 or len(data["hash"]) <= 0:
             phone = input(f"{biru}input telegram phone number : ")
             self.login(phone)
             
