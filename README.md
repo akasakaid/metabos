@@ -35,21 +35,12 @@ Auto defeat the BOS
     pip install -r requirements.txt
     ```
 
-6. Here to fill in the data.json file there are 2 ways. The method is as follows
-    1. Login using a Telegram Account
-        
-        The method is quite easy, just type 
+6. Next you have to fill in the `data.json` file. To fill it in you can see the following video guide:
+    TBA
 
-        ```
-        python bot.py
-        ```
+# Discussion
 
-        Then there will be a telegram number input form and enter your telegram number, done. The data.json file is populated correctly.
-    
-    2. Manual fill
-
-        To get data so that you can fill in the data.json file, please follow the following video [https://youtu.be/aSexnEGYN0o](https://youtu.be/aSexnEGYN0o). 
-        *The video uses Indonesian language. hope you understand.*
+If you have questions, please ask in the chat group: [https://t.me/sdsproject_cha](https://sdsproject_chat)
 
 # Support
 

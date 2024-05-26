@@ -35,21 +35,12 @@ Auto defeat the bos
     pip install -r requirements.txt
     ```
 
-6. Disini untuk mengisi file data.json terdapat 2 cara. Caranya adalah sebagai berikut
-    1. Login menggunakan Akun Telegram
-        
-        Caranya cukup mudah, hanya mengetikkan 
+6. Selanjutnya kamu harus mengisi file `data.json` untuk mengisinya kamu bisa melihat video panduan berikut :
+   TBA
 
-        ```
-        python bot.py
-        ```
+# Discussion
 
-        Kemudian akan ada form input nomor telegram dan masukkan nomor telegrammu, selesai. File data.json terisi dengan benar.
-    
-    2. Isi manual
-
-        Untuk mendapatkan data agar bisa mengisi file data.json silahkan ikuti video berikut [https://youtu.be/aSexnEGYN0o](https://youtu.be/aSexnEGYN0o). 
-        *Videonya menggunakan bahasa indonesia. semoga kalian paham.*
+Jika kamu memiliki pertanyaan, silahkan bertanya digrup chat : [https://t.me/sdsproject_cha](https://sdsproject_chat)
 
 # Support
 
