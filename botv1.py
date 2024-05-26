@@ -105,7 +105,7 @@ class MetaBossBot:
             "hash": dict_data["hash"],
         }
         open("data.json", "w").write(json.dumps(data, indent=4))
-    
+
     def main(self):
         banner = f"""
     {hijau}METABOS AUTO DEFEAT BOS
@@ -116,46 +116,36 @@ class MetaBossBot:
     {kuning}Warning !
     All risks are borne by user !
         """
-        os.system('cls' if os.name == 'nt' else 'clear')
+        if "noclear" not in sys.argv:
+            os.system("cls" if os.name == "nt" else "clear")
         print(banner)
         if not os.path.exists("data.json"):
-            open("data.json", "w").write(
-                json.dumps({"id": "", "username": "", "hash": ""}, indent=4)
-            )
-            phone = input(f"{biru}input telegram phone number : ")
-            self.login(phone)
+            open("data.json", "w").write("# remove this line and paste your data !")
+            self.log(f"{kuning}data.json is not found !")
+            self.log(f"{kuning}please update your data.json !")
+            sys.exit()
 
         data = json.loads(open("data.json", "r").read())
-        if len(str(data["id"])) <= 0 or len(data["username"]) <= 0 or len(data["hash"]) <= 0:
-            phone = input(f"{biru}input telegram phone number : ")
-            self.login(phone)
-            
-        data = json.loads(open("data.json", "r").read())
+        if "remove this line" in json.dumps(data):
+            self.log(f"{kuning}please update your data.json")
+            sys.exit()
+
         while True:
             try:
                 data = json.loads(open("data.json", "r").read())
-                data_login_ws = {
-                    "code": 1,
-                    "type": 2,
-                    "data": {
-                        "id": data["id"],
-                        "username": data["username"],
-                        "hash": data["hash"],
-                        "timeAuth": int(time.time()),
-                    },
-                }
-
+                login_data = data
                 ws = websocket.WebSocket()
-                ws.connect("wss://api.metaboss.xyz:2000/game",timeout=10)
-                ws.send(json.dumps(data_login_ws))
+                ws.connect("wss://api.metaboss.xyz:2000/game", timeout=10)
+                ws.send(json.dumps(login_data))
                 result = ws.recv()
                 res = json.loads(result)
                 coin = None
                 name = None
+                ton = None
                 if "data" not in res.keys():
-                    self.log(f'{merah}something wrong !')
+                    self.log(f"{merah}something wrong !")
                     self.log(f'{merah}"data" not found !')
-                    self.log(f'{merah}{res}')
+                    self.log(f"{merah}{res}")
                     sys.exit()
 
                 data = res["data"]
@@ -163,29 +153,53 @@ class MetaBossBot:
                     coin = data["coin"]
                 if "name" in data.keys():
                     name = data["name"]
+                if "ton" in data.keys():
+                    ton = data["ton"]
                 self.log(f"{hijau}Name : {putih}{name}")
                 self.log(f"{putih}Your coin : {hijau}{coin}")
+                self.log(f"{putih}Your Ton : {hijau}{ton}")
                 print("~" * 50)
                 if name is None or coin is None:
-                    print("your name is none or coin is none, maybe your data is invalid !")
+                    print(
+                        "your name is none or coin is none, maybe your data is invalid !"
+                    )
                     sys.exit()
+                
+                resource10 = data["resource"]["10"]
+                if int(resource10) > 0:
+                    self.log(f"{hijau}open chest !")
+                    while int(resource10):
+                        data_claim = {"code":1,"type":11,"data":{"type":10}}
+                        ws.send(json.dumps(data_claim))
+                        for i in range(3):
+                            result = ws.recv()
+                            res = json.loads(result)
+                            if res['code'] == 12:
+                                data = res["data"]
+                                reward = data["number"]
+                                reward_type = None
+                                if data["type"] == 1:
+                                    reward_type = "coin"
+                                if data["type"] == 2:
+                                    reward_type = "ton"
+                                self.log(f"{putih}get reward {hijau}{reward} {reward_type}")
 
                 while True:
-                    ws_data = {"code":1,"type":7,"data":{}}
+                    ws_data = {"code": 1, "type": 7, "data": {}}
                     ws.send(json.dumps(ws_data))
                     result = ws.recv()
                     res = json.loads(result)
                     if "data" not in res.keys():
-                        self.log(f'{merah}something wrong !')
+                        self.log(f"{merah}something wrong !")
                         self.log(f'{merah}"data" not found !')
-                        self.log(f'{merah}{res}')
+                        self.log(f"{merah}{res}")
                         sys.exit()
 
                     data = res["data"]
                     if "remain" in data.keys():
                         remain = data["remain"]
                         if remain != 0:
-                            self.log(f'{kuning}there no boss to defeat !')
+                            self.log(f"{kuning}there no boss to defeat !")
                             print("~" * 50)
                             if len(str(remain)) == 6:
                                 countdown = "".join(list(str(remain))[0:3])
@@ -195,7 +209,7 @@ class MetaBossBot:
                             break
 
                         while True:
-                            ws_data = {"code":1,"type":3,"data":{}}
+                            ws_data = {"code": 1, "type": 3, "data": {}}
                             ws.send(json.dumps(ws_data))
                             result = ws.recv()
                             res = json.loads(result)
@@ -205,23 +219,23 @@ class MetaBossBot:
                                     hp_boss = data["hpBoss"]
                                 if "coin" in data.keys():
                                     coin = data["coin"]
-                                self.log(f'{hijau}current hp bos : {putih}{hp_boss}')
-                                self.log(f'{hijau}your coin : {putih}{coin}')
+                                self.log(f"{hijau}current hp bos : {putih}{hp_boss}")
+                                self.log(f"{hijau}your coin : {putih}{coin}")
                                 if hp_boss <= 0:
                                     self.log(f"{kuning}the bos has defeat !")
                                     print("~" * 50)
                                     break
-                                
+
                                 print("~" * 50)
                                 time.sleep(2)
-            except (TimeoutError,websocket._exceptions.WebSocketTimeoutException):
-                self.log(f'{merah}connection timeout,{kuning}reconnecting !')
+            except (TimeoutError, websocket._exceptions.WebSocketTimeoutException):
+                self.log(f"{merah}connection timeout,{kuning}reconnecting !")
                 print("~" * 50)
                 continue
+
 
 if __name__ == "__main__":
     try:
         MetaBossBot().main()
     except KeyboardInterrupt:
         sys.exit()
-

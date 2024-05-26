@@ -1,3 +1,5 @@
 env
 *.session
 *.session-journal
+old_data.json
+data
