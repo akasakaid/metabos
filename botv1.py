@@ -12,10 +12,6 @@ import requests
 import random
 import websocket
 from urllib.parse import unquote
-from telethon import TelegramClient, sync, events
-from telethon.tl.functions.messages import RequestWebViewRequest
-from telethon.errors import SessionPasswordNeededError
-from phonenumbers import is_valid_number as valid_number, parse as pp
 from colorama import *
 
 init(autoreset=True)
@@ -51,61 +47,6 @@ class MetaBossBot:
             time.sleep(1)
         print("                          ", flush=True, end="\r")
 
-    def login(self, phone):
-        session_folder = "session"
-        api_id = 2040
-        api_hash = "b18441a1ff607e10a989891a5462e627"
-
-        if not os.path.exists(session_folder):
-            os.makedirs(session_folder)
-
-        if not valid_number(pp(phone)):
-            self.log(f"{merah}phone number invalid !")
-            sys.exit()
-
-        client = TelegramClient(
-            f"{session_folder}/{phone}", api_id=api_id, api_hash=api_hash
-        )
-        client.connect()
-        if not client.is_user_authorized():
-            try:
-                client.send_code_request(phone)
-                code = input(f"{putih}input login code : ")
-                client.sign_in(phone=phone, code=code)
-            except SessionPasswordNeededError:
-                pw2fa = input(f"{putih}input password 2fa : ")
-                client.sign_in(phone=phone, password=pw2fa)
-
-        me = client.get_me()
-        first_name = me.first_name
-        last_name = me.last_name
-        username = me.username
-        self.log(f"{putih}Login as {hijau}{first_name} {last_name}")
-        res = client(
-            RequestWebViewRequest(
-                peer=self.peer,
-                bot=self.peer,
-                platform="Android",
-                url="https://game.metaboss.xyz/test/",
-                from_bot_menu=False,
-            )
-        )
-        tg_data = unquote(res.url.split("#tgWebAppData=")[1]).split(
-            "&tgWebAppVersion="
-        )[0]
-
-        dict_data = {}
-        for i in unquote(tg_data).split("&"):
-            key, value = i.split("=")
-            dict_data[key] = value
-
-        data = {
-            "id": me.id,
-            "username": f"{first_name} {last_name}",
-            "hash": dict_data["hash"],
-        }
-        open("data.json", "w").write(json.dumps(data, indent=4))
-
     def main(self):
         banner = f"""
     {hijau}METABOS AUTO DEFEAT BOS
@@ -115,6 +56,8 @@ class MetaBossBot:
 
     {kuning}Warning !
     All risks are borne by user !
+    
+    {putih}Message: {hijau}don't forget to 'git pull', maybe i update the bot !
         """
         if "noclear" not in sys.argv:
             os.system("cls" if os.name == "nt" else "clear")
@@ -164,25 +107,26 @@ class MetaBossBot:
                         "your name is none or coin is none, maybe your data is invalid !"
                     )
                     sys.exit()
-                
-                resource10 = data["resource"]["10"]
-                if int(resource10) > 0:
-                    self.log(f"{hijau}open chest !")
-                    while int(resource10):
-                        data_claim = {"code":1,"type":11,"data":{"type":10}}
-                        ws.send(json.dumps(data_claim))
-                        for i in range(3):
-                            result = ws.recv()
-                            res = json.loads(result)
-                            if res['code'] == 12:
-                                data = res["data"]
-                                reward = data["number"]
-                                reward_type = None
-                                if data["type"] == 1:
-                                    reward_type = "coin"
-                                if data["type"] == 2:
-                                    reward_type = "ton"
-                                self.log(f"{putih}get reward {hijau}{reward} {reward_type}")
+                resource = data["resource"]
+                if "10" in resource.keys():
+                    resource10 = data["resource"]["10"]
+                    if int(resource10) > 0:
+                        self.log(f"{hijau}open chest !")
+                        while int(resource10):
+                            data_claim = {"code":1,"type":11,"data":{"type":10}}
+                            ws.send(json.dumps(data_claim))
+                            for i in range(3):
+                                result = ws.recv()
+                                res = json.loads(result)
+                                if res['code'] == 12:
+                                    data = res["data"]
+                                    reward = data["number"]
+                                    reward_type = None
+                                    if data["type"] == 1:
+                                        reward_type = "coin"
+                                    if data["type"] == 2:
+                                        reward_type = "ton"
+                                    self.log(f"{putih}get reward {hijau}{reward} {reward_type}")
 
                 while True:
                     ws_data = {"code": 1, "type": 7, "data": {}}
