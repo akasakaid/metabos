@@ -36,7 +36,9 @@ Auto defeat the BOS
     ```
 
 6. Next you have to fill in the `data.json` file. To fill it in you can see the following video guide:
-    TBA
+- How to activate the Dev Tool in the Telegram application: [https://youtu.be/NYxHmck_GjE](https://youtu.be/NYxHmck_GjE)
+
+- How to get metabos data: [https://youtu.be/BK2J3gfs1Bk](https://youtu.be/BK2J3gfs1Bk)
 
 # Discussion
 

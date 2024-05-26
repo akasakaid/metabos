@@ -36,7 +36,9 @@ Auto defeat the bos
     ```
 
 6. Selanjutnya kamu harus mengisi file `data.json` untuk mengisinya kamu bisa melihat video panduan berikut :
-   TBA
+   - Cara mengaktifkan dev tool di aplikasi telegram : [https://youtu.be/NYxHmck_GjE](https://youtu.be/NYxHmck_GjE)
+
+   - Cara mendapatkan data metabos : [https://youtu.be/BK2J3gfs1Bk](https://youtu.be/BK2J3gfs1Bk)
 
 # Discussion
 
